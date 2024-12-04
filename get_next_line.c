@@ -41,7 +41,6 @@ static char	*ft_line(char *buffer)
 	i = 0;
 	if (!buffer[i])
 	{
-		// free(buffer);
 		return (NULL);
 	}
 	while (buffer[i] && buffer[i] != '\n')
@@ -73,6 +72,7 @@ static char	*ft_read(int fd, char *resultat)
 		if (number_read == -1)
 		{
 			free(buffer);
+			free(resultat);
 			return (NULL);
 		}
 		buffer[number_read] = '\0';
@@ -109,7 +109,7 @@ char	*get_next_line(int fd)
 //         printf("Erreur d'ouverture du fichier.\n");
 //         return (1);
 //     }
-//     while ((line = get_next_line(fd)) != NULL)
+//     while ((line = get_next_line(0)) != NULL)
 //     {
 //         printf("%s", line);
 //         free(line);

@@ -15,14 +15,14 @@ static char	*ft_next_bonus(char *buffer)
 	int		j;
 	char	*line;
 
-	i = 0;
+	i = 0;	
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
 	if (!buffer[i])
 	{
 		free(buffer);
 		return (NULL);
 	}
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
 	line = ft_calloc_bonus((ft_strlen_bonus(buffer) - i + 1), sizeof(char));
 	i++;
 	j = 0;
@@ -41,7 +41,6 @@ static char	*ft_line_bonus(char *buffer)
 	i = 0;
 	if (!buffer[i])
 	{
-		// free(buffer);
 		return (NULL);
 	}
 	while (buffer[i] && buffer[i] != '\n')
@@ -73,6 +72,7 @@ static char	*ft_read_bonus(int fd, char *resultat)
 		if (number_read == -1)
 		{
 			free(buffer);
+			free(resultat);
 			return (NULL);
 		}
 		buffer[number_read] = '\0';
@@ -84,12 +84,12 @@ static char	*ft_read_bonus(int fd, char *resultat)
 	return (resultat);
 }
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
-	static char	*buffer[10248];
+	static char	*buffer[FD_SETSIZE];
 	char		*line;
 
-	if (fd < 0 || fd >= 10248 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= FD_SETSIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer[fd] = ft_read_bonus(fd, buffer[fd]);
 	if (!buffer[fd])

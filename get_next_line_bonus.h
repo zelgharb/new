@@ -5,13 +5,17 @@
 #  define BUFFER_SIZE 555
 # endif
 
+# ifndef FD_SETSIZE
+#  define FD_SETSIZE 1024
+# endif
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
 # include <fcntl.h>
 # include <stdio.h>
 
-char	*get_next_line_bonus(int fd);
+char	*get_next_line(int fd);
 char	*ft_strjoin_bonus(char const *s1, char const *s2);
 size_t	ft_strlen_bonus(const char *s);
 char	*ft_strchr_bonus(const char *s, int c);
