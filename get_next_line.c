@@ -1,17 +1,12 @@
 #include "get_next_line.h"
 
-static char	*ft_free(char *buffer, char *s2)
+static char	*ft_free(char *buffer, char *buf)
 {
-	char	*tmp;
+	char	*temp;
 
-	tmp = NULL;
-	if (buffer && s2)
-		tmp = ft_strjoin(buffer, s2);
-	else if (buffer)
-		tmp = buffer;
-	if (buffer && !tmp)
-		free(buffer);
-	return (tmp);
+	temp = ft_strjoin(buffer, buf);
+	free(buffer);
+	return (temp);
 }
 
 static char	*ft_next(char *buffer)
@@ -21,13 +16,14 @@ static char	*ft_next(char *buffer)
 	char	*line;
 
 	i = 0;
+	
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
 	if (!buffer[i])
 	{
 		free(buffer);
 		return (NULL);
 	}
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
 	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
 	i++;
 	j = 0;
@@ -40,26 +36,25 @@ static char	*ft_next(char *buffer)
 static char	*ft_line(char *buffer)
 {
 	int		i;
-	int		j;
 	char	*mem;
 
 	i = 0;
 	if (!buffer[i])
 	{
-		free(buffer);
+		// free(buffer);
 		return (NULL);
 	}
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	mem = ft_calloc(i + 2, sizeof(char));
-	j = 0;
-	while (buffer[j] && buffer[j] != '\n')
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
 	{
-		mem[j] = buffer[j];
-		j++;
+		mem[i] = buffer[i];
+		i++;
 	}
-	if (buffer[j] && buffer[j] == '\n')
-		mem[j++] = '\n';
+	if (buffer[i] && buffer[i] == '\n')
+		mem[i++] = '\n';
 	return (mem);
 }
 
@@ -103,3 +98,22 @@ char	*get_next_line(int fd)
 	buffer = ft_next(buffer);
 	return (line);
 }
+// int main(void)
+// {
+//     int fd;
+//     char *line;
+
+//     fd = open("test.txt", O_RDONLY);
+//     if (fd == -1)
+//     {
+//         printf("Erreur d'ouverture du fichier.\n");
+//         return (1);
+//     }
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         printf("%s", line);
+//         free(line);
+//     }
+//     close(fd);
+//     return (0);
+// }

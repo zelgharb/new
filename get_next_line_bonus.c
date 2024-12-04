@@ -1,17 +1,12 @@
 #include "get_next_line_bonus.h"
 
-static char	*ft_free_bonus(char *buffer, char *s2)
+static char	*ft_free_bonus(char *buffer, char *buf)
 {
-	char	*tmp;
+	char	*temp;
 
-	tmp = NULL;
-	if (buffer && s2)
-		tmp = ft_strjoin_bonus(buffer, s2);
-	else if (buffer)
-		tmp = buffer;
-	if (buffer && !tmp)
-		free(buffer);
-	return (tmp);
+	temp = ft_strjoin_bonus(buffer, buf);
+	free(buffer);
+	return (temp);
 }
 
 static char	*ft_next_bonus(char *buffer)
@@ -46,7 +41,7 @@ static char	*ft_line_bonus(char *buffer)
 	i = 0;
 	if (!buffer[i])
 	{
-		//free(buffer);
+		// free(buffer);
 		return (NULL);
 	}
 	while (buffer[i] && buffer[i] != '\n')
@@ -103,3 +98,42 @@ char	*get_next_line_bonus(int fd)
 	buffer[fd] = ft_next_bonus(buffer[fd]);
 	return (line);
 }
+// int	main(void)
+// {
+// 	char	*line;
+// 	int		i;
+// 	int		fd1;
+// 	int		fd2;
+// 	int		fd3;
+
+// 	fd1 = open("fd1.txt", O_RDONLY);
+// 	fd2 = open("fd2.txt", O_RDONLY);
+// 	fd3 = open("fd3.txt", O_RDONLY);
+// 	i = 1;
+// 	while (i < 7)
+// 	{
+// 	line = get_next_line_bonus(fd1);
+// 	if (line) 
+// 	{
+//    		printf("%s", line);
+//     	free(line);
+// 	}
+// 	line = get_next_line_bonus(fd2);
+// 	if (line) 
+// 	{
+//     	printf("%s", line);
+//     	free(line);
+// 	}
+// 	line = get_next_line_bonus(fd3);
+// 	if (line) 
+// 	{
+//     	printf("%s", line);
+//     	free(line);
+// 	}
+// 	i++;
+// 	}
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	return (0);
+// }
